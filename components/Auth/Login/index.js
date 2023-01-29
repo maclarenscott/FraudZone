@@ -2,45 +2,62 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import { loginUser } from "../../../lib/auth";
 import { removeToken } from "../../../lib/token";
+// import { host } from "../../../helpers/host";
 
 export function LoginForm() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    // Remove the User's token which saved before.
-    removeToken();
-  }, []);
+  
+
+  
 
   async function handleSubmit(e) {
+
+    console.log('sign in click')
+    const host="http://localhost:3000"
+    console.log(host)
     e.preventDefault();
 
     try {
-      setIsLoading(true);
-      // API call:
-      const data = await loginUser(username, password);
-      // console.log("Data is :", data);
-      // console.log("Payload is :" , data.payload);
-      // console.log("Token is :" , data.payload.token);
-      if (data.payload && data.payload.token) {
-        if (rememberMe) {
-          window.localStorage.setItem("token", data.payload.token);
-        } else {
-          window.sessionStorage.setItem("token", data.payload.token);
-        }
-        setTimeout(() => {
-          Router.push("/dashboard");
-        }, 1000);
-      } else {
-        setErrorMessage(data.message);
+      const request = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "email": email,
+          "password": password,
+        })
       }
+
+      fetch(`${host}/api/login`, request)
+      .then((data) => data.json())
+      .then((data) => {
+        console.log('data')
+        console.log(data)
+        console.log(data["status"])
+        //if register was successful
+        if (data["status"] == true || data["status"] == "true"){
+          
+          // console.log("kkk")
+          console.log("pushing to dashboard")
+          const kkk =`/dashboard?email=${email}&token=${data["token"]}`;
+          console.log(kkk)
+          Router.push(kkk);
+          // Router.push("https://google.ca");
+        }else{
+          setError(data["message"]);
+        }
+      }).catch((error) => {
+        setError("Unable to login, invalid credentials");
+        
+      })
+
     } catch (error) {
+      setError("Error:"+String(error));
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -49,15 +66,15 @@ export function LoginForm() {
       <fieldset>
         <legend className="h1">Login</legend>
         <div className="mb-3">
-          <label htmlFor="usernameInput" className="form-label">
+          <label htmlFor="emailInput" className="form-label">
             Username
           </label>
           <input
             type="text"
-            id="usernameInput"
+            id="emailInput"
             className="form-control"
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="mb-3">
@@ -85,12 +102,12 @@ export function LoginForm() {
             </label>
           </div>
         </div> */}
-        {errorMessage && (
+        {error && (
           <div className="alert alert-danger" role="alert">
-            {errorMessage}
+            {error}
           </div>
         )}
-        <button type="submit" className="btn btn-primary" disabled={isLoading}>
+        <button type="submit" className="btn btn-primary" >
           Login
         </button>
       </fieldset>

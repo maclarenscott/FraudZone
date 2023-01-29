@@ -4,11 +4,9 @@ import { host } from "../../../helpers/host";
 
 import Router from "next/router";
 
-export function RegisterForm() {
-  // const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export function DashboardTable() {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [token, setToken] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
