@@ -10,7 +10,8 @@ export class DatabaseConnection {
             host = "194.113.64.137";
         }
         if (!password) {
-            password = btoa("aGVxcG8wLWhvdHZ1Yy1EeXR2ZWY=");
+            // password = "heqpo0-hotvuc-Dytvef";
+            password = "heqpo0-hotvuc-Dytvef";
         }
 
         console.log('pass:' + password)
