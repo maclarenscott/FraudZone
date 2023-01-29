@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Router from "next/router";
 import { useRouter } from "next/router";
-import { whoAmI } from "../../lib/auth";
-import { removeToken } from "../../lib/token";
 import Head from 'next/head'
-import { Meter } from "../../../../components/meter";
+// import { Meter } from "../../../../components/meter";
 
 
 
@@ -16,7 +14,7 @@ export default function Session() {
             <title>Session</title>
         </Head>
         <h1>Session</h1>
-        <Meter risk="67" />
+        {/* <Meter risk="67" /> */}
         </>
     )
 }

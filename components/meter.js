@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 // import "./style.css";
 
-import GaugeChart from "react-gauge-chart";
+import {GaugeChart} from "react-gauge-chart";
 
 export class Meter extends Component {
   constructor(props) {
