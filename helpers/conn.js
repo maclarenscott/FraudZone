@@ -1,16 +1,16 @@
 import mysql from 'serverless-mysql';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 export class DatabaseConnection {
 
     constructor(host = false, user = "fz", password = false, database = "FraudZone") {
         console.log('at constructor')
-        require("dotenv").config()
+        // require("dotenv").config()
         //set host and password to environment variables if not given
         if (!host) {
             host = "194.113.64.137";
         }
         if (!password) {
-            password = "heqpo0-hotvuc-Dytvef";
+            password = btoa("aGVxcG8wLWhvdHZ1Yy1EeXR2ZWY=");
         }
 
         console.log('pass:' + password)
